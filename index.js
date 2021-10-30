@@ -1,7 +1,9 @@
+// App packages
 const inquirer = require('inquirer');
 const fs = require('fs');
-const generateHtml = require('./lib/generateHtml.js');
+// const generateHtml = require('./lib/generateHtml.js');
 
+// Manager questions
 const managerQuestions = [
     {
         type: 'input',
@@ -63,6 +65,7 @@ const managerQuestions = [
     }
 ];
 
+// Engineer Questions
 const engineerQuestions = [
     {
         type: 'input',
@@ -124,6 +127,7 @@ const engineerQuestions = [
     }
 ];
 
+// Intern Questions
 const internQuestions = [
     {
         type: 'input',
@@ -171,3 +175,26 @@ const internQuestions = [
         choices: ['Add an engineer', 'Add an intern', 'Show me the team profile!']
     }
 ]
+
+// Write HTML file
+function writeToFile(answers) {
+
+    fs.writeFile('./dist/readme.md', generateMarkdown(answers)
+        , err => {
+            if (err) {
+                console.error(err)
+                return
+            }
+        }
+    )
+};
+
+// Initialize app
+function init() {
+    inquirer.prompt(managerQuestions)
+        .then((answers) => {
+            writeToFile(answers)
+            console.log(answers);
+        })
+}
+init();
