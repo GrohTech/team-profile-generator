@@ -1,7 +1,10 @@
 // App packages
 const inquirer = require('inquirer');
 const fs = require('fs');
-// const generateHtml = require('./lib/generateHtml.js');
+const generateHtml = require('./lib/generateHtml.js');
+const Manager = require("./lib/Manager");
+const Engineer = require("./lib/Engineer");
+const Intern = require("./lib/Intern");
 
 // Manager questions
 const managerQuestions = [
@@ -177,9 +180,9 @@ const internQuestions = [
 ]
 
 // Write HTML file
-function writeToFile(answers) {
+function writeToFile(teamMembers) {
 
-    fs.writeFile('./dist/readme.md', generateMarkdown(answers)
+    fs.writeFile('./dist/team.html', generateHtml(teamMembers)
         , err => {
             if (err) {
                 console.error(err)
@@ -191,10 +194,46 @@ function writeToFile(answers) {
 
 // Initialize app
 function init() {
-    inquirer.prompt(managerQuestions)
+    const teamMembers = [
+
+    ]
+    function generateManager() {
+        inquirer.prompt(managerQuestions)
         .then((answers) => {
-            writeToFile(answers)
-            console.log(answers);
+            const manager = new Manager(answers.name, answers.id, answers.email, answers.officeNum)
+            teamMembers.push(manager)
+            createTeam(answers.menu);
         })
+    }
+    function generateEngineer() {
+        inquirer.prompt(engineerQuestions)
+        .then((answers) => {
+            const engineer = new Engineer(answers.name, answers.id, answers.email, answers.github)
+            teamMembers.push(engineer)
+            createTeam(answers.menu);
+        })
+    }
+    function generateIntern() {
+        inquirer.prompt(internQuestions)
+        .then((answers) => {
+            const intern = new Intern(answers.name, answers.id, answers.school)
+            teamMembers.push(intern)
+            createTeam(answers.menu);
+        })
+    }
+    function createTeam(menu){
+        if(menu == 'Add an engineer'){
+            generateEngineer()
+        }
+        else if(menu == 'Add an intern'){
+            generateIntern()
+        }
+        else{
+            writeToFile(teamMembers)
+        }
+    }
+    generateManager();
 }
 init();
+
+'Add an engineer', 'Add an intern', 'Show me the team profile!'
