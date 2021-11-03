@@ -235,5 +235,3 @@ function init() {
     generateManager();
 }
 init();
-
-'Add an engineer', 'Add an intern', 'Show me the team profile!'
