@@ -13,7 +13,7 @@ When initiated, this app presents the user with questions to answer on the comma
 * [Credits](#credits)
 * [Questions](#questions)
 
-![Team profile generator Screenshot](/screenshot.jpg "Screenshot")
+![Team profile generator Screenshot](./screenshot.jpg "Screenshot")
   
 ## Installation
 
